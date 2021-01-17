@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 
 function Cart() {
-  const state = useSelector(state => state);
-
-  console.log(state);
+  const cart = useSelector(state => state.cart.items);
 
   return (
     <table>
@@ -16,7 +14,14 @@ function Cart() {
         </tr>
       </thead>
       <tbody>
-
+        {cart.map(item => (
+          <tr key={item.product.id}>
+            <td>{item.product.title}</td>
+            <td>{item.product.price}</td>
+            <td>{item.quantity}</td>
+            <td>{(item.product.price * item.quantity).toFixed(2)}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   )
