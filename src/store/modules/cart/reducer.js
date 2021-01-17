@@ -1,29 +1,27 @@
+import produce from 'immer';
+
 const INITAL_STATE = {
   items: []
 }
 
 function cart(state = INITAL_STATE, action) {
-  console.log(state, action)
+  return produce(state, draft => {
+    switch(action.type) {
+      case 'ADD_PRODUCT_TO_CART': {
+        const { product } = action.payload;
 
-  switch(action.type) {
-    case 'ADD_PRODUCT_TO_CART': {
-      const { product } = action.payload;
+        draft.items.push({
+          product,
+          quantity: 1,
+        });
 
-      return {
-        ...state,
-        items: [
-          ...state.items,
-          {
-            product,
-            quantity: 1,
-          }
-        ]
-      };
+        break;
+      }
+      default: {
+        return state;
+      }
     }
-    default: {
-      return state;
-    }
-  }
-};
+  });
+}
 
 export default cart;
