@@ -18,7 +18,7 @@ function Catalog() {
       <h1>Catalog</h1>
 
       {catalog.map(product => (
-        <CatalogItem key={product} product={product} />
+        <CatalogItem key={product.id} product={product} />
       ))}
     </main>
   );
