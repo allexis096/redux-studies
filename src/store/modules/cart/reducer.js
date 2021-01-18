@@ -1,7 +1,8 @@
 import produce from 'immer';
 
 const INITAL_STATE = {
-  items: []
+  items: [],
+  failedStockCheck: [],
 }
 
 function cart(state = INITAL_STATE, action) {
@@ -25,9 +26,14 @@ function cart(state = INITAL_STATE, action) {
 
         break;
       }
-      default: {
-        return state;
-      }
+    case 'ADD_PRODUCT_TO_CART_FAILURE': {
+      draft.failedStockCheck.push(action.payload.productId);
+
+      break;
+    }
+    default: {
+      return state;
+    }
     }
   });
 }

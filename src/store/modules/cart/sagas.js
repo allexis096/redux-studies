@@ -1,4 +1,6 @@
-import { all, takeLatest, select } from 'redux-saga/effects';
+import { all, takeLatest, select, call, put } from 'redux-saga/effects';
+import { addProductToCartSuccess, addProductToCartFailure } from './actions';
+import api from '../../../services/api';
 
 function* checkProductStock(action) {
   const { product } = action.payload;
@@ -7,9 +9,13 @@ function* checkProductStock(action) {
     return state.cart.items.find(item => item.product.id === product.id)?.quantity ?? 0;
   });
 
-  console.log(currentQuantity);
+  const availableStockResponse = yield call(api.get, `stock/${product.id}`);
 
-  console.log('add to cart')
+  if (availableStockResponse.data.quantity > currentQuantity) {
+    yield put(addProductToCartSuccess(product));
+  } else {
+    yield put(addProductToCartFailure(product.id));
+  };
 }
 
 export default all([

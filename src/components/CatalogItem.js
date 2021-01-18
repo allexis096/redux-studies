@@ -1,10 +1,14 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { addProductToCartRequest } from "../store/modules/cart/actions";
 
 function CatalogItem({ product }) {
   const dispatch = useDispatch();
+
+  const hasFailedStockCheck = useSelector(state => {
+    return state.cart.failedStockCheck.includes(product.id);
+  });
 
   const handleAddProductToCart = useCallback( () => {
     dispatch(addProductToCartRequest(product))
@@ -21,6 +25,8 @@ function CatalogItem({ product }) {
       >
         Comprar
       </button>
+
+      {hasFailedStockCheck && <span style={{ color: 'red' }}>Falta de estoque</span>}
     </article>
   )
 };
