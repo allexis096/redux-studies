@@ -1,13 +1,13 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
-import { addProductToCart } from "../store/modules/cart/actions";
+import { addProductToCartRequest } from "../store/modules/cart/actions";
 
 function CatalogItem({ product }) {
   const dispatch = useDispatch();
 
   const handleAddProductToCart = useCallback( () => {
-    dispatch(addProductToCart(product))
+    dispatch(addProductToCartRequest(product))
   }, [dispatch, product]);
 
   return (
